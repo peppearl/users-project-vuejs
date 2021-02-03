@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>VueJS Users</h1>
+    <h1>Users</h1>
     <hr>
     <button
         id="fetch-users"
@@ -38,6 +38,15 @@
         >
       </label>
     </div>
+    <div>
+      <label>Trier par âge :
+      </label>
+      <p v-if="currentSortDir === ''">Par défaut</p>
+      <p v-if="currentSortDir === 'asc'">Croissant</p>
+      <p v-if="currentSortDir === 'desc'">Décroissant</p>
+    </div>
+    <p v-if="results.length">il y a <strong>{{ getFilteredNames.length }}</strong> utilisateurs</p>
+    <p v-else>il n'y a <strong>aucun</strong> utilisateur</p>
     <table
         id="tbl-users"
         class="table table-hover"
@@ -63,7 +72,7 @@
                 d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z"
             /></svg>
           </span>
-          <span v-else>
+          <span v-else-if="currentSortDir === 'asc'">
             <svg
                 data-v-1061b08a=""
                 width="16"
@@ -74,7 +83,22 @@
                 data-v-1061b08a=""
                 fill="currentColor"
                 d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"
-            /></svg></span>
+            /></svg>
+          </span>
+          <span v-else>
+            <svg
+                data-v-1061b08a=""
+                width="16"
+                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+            ><path
+                data-v-1061b08a=""
+                fill="currentColor"
+                d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"
+            ></path>
+            </svg>
+          </span>
           Age
         </th>
       </tr>
@@ -110,7 +134,7 @@ export default {
       genderFilter: ['male', 'female'],
       filterByName: '',
       currentSort: 'age',
-      currentSortDir: 'asc',
+      currentSortDir: '',
     }
   },
   computed: {
@@ -124,14 +148,14 @@ export default {
     },
     sortedAge() {
       return this.getFilteredNames.slice().sort((a, b) => {
-        let modifier = 1;
-
-        if (this.currentSortDir === 'desc') modifier = -1;
-        if (a.dob.age < b.dob.age) return -1 * modifier;
-        if (a.dob.age > b.dob.age) return modifier;
-        return 0;
+        if (!this.currentSortDir) return 0;
+        const  modifier = this.currentSortDir === 'desc' ? -1 : 1;
+        return (a.dob.age - b.dob.age) * modifier;
       });
     },
+  },
+  mounted() {
+    console.log(this.$route)
   },
   created() {
     this.fetchUsers();
@@ -149,10 +173,17 @@ export default {
     sort(s) {
       //if s == current sort, reverse
       if (s === this.currentSort) {
-        this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+        if (this.currentSortDir === '') {
+          this.currentSortDir = 'asc'
+          return this.results
+        } else if (this.currentSortDir === 'asc') {
+          this.currentSortDir = 'desc'
+        } else if (this.currentSortDir === 'desc') {
+          this.currentSortDir = ''
+        }
+        this.currentSort = s;
       }
-      this.currentSort = s;
-    }
+    },
   },
 }
 </script>
