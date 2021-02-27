@@ -1,5 +1,13 @@
 # users-project
 
+**About**
+
+School project to learn how to code in VueJS : use of Vue CLI, router.
+Projet réalisé en classe pour apprendre à coder avec VueJS : utilisation de Vue CLI, router.
+
+Fetch users in a table thanks to an API (external API and then a API we created in another project in NodeJS), with a search bar, sorting by age and by genre. 
+Récupération d'utilisateurs dans un tableau grâce à une API (API externe puis une API créé lors d'un autre projet fait en classe en NodeJS), avec une barre de recherche, un tri par âge et par genre.
+
 ## Project setup
 ```
 yarn install
