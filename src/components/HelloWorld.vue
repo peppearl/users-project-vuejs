@@ -7,13 +7,13 @@
         class="btn btn-outline-dark joli"
         @click="fetchUsers"
     >
-      Afficher 20 nouveaux utilisateurs
+      Afficher 8 nouveaux utilisateurs
     </button>
     <button
         class="btn btn-outline-dark"
         @click="resetFilter"
     >
-      reset
+      Remettre les filtres par défaut
     </button>
     <br>
     <label>
@@ -41,6 +41,7 @@
       <label>
         Rechercher un utilisateur
         <input
+            type="search"
             v-model="filterByName"
             placeholder="Rechercher un utilisateur"
         >
@@ -60,87 +61,18 @@
     <p v-else>
       il n'y a <strong>aucun</strong> utilisateur récupéré
     </p>
-    <table
-        v-if="results.length"
-        id="tbl-users"
-        class="table table-hover"
-    >
-      <thead>
-      <tr>
-        <th/>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Tel</th>
-        <th>Genre</th>
-        <th @click="sortBy('age')">
-          <span v-if="currentSortDir === 'desc'">
-            <svg
-                data-v-1061b08a=""
-                height="16"
-                viewBox="0 0 320 512"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-            ><path
-                d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z"
-                data-v-1061b08a=""
-                fill="currentColor"
-            /></svg>
-          </span>
-          <span v-else-if="currentSortDir === 'asc'">
-            <svg
-                data-v-1061b08a=""
-                height="16"
-                viewBox="0 0 320 512"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-            ><path
-                d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"
-                data-v-1061b08a=""
-                fill="currentColor"
-            /></svg>
-          </span>
-          <span v-else>
-            <svg
-                data-v-1061b08a=""
-                height="16"
-                viewBox="0 0 320 512"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-            ><path
-                d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"
-                data-v-1061b08a=""
-                fill="currentColor"
-            ></path>
-            </svg>
-          </span>
-          Age
-        </th>
-      </tr>
-      </thead>
-      <tbody
-          id="tbody-users"
-      >
-      <tr
-          v-for="user in sortedAge"
-          :key="user.email"
-      >
-        <td><img :src="user.picture.thumbnail"></td>
-        <td>{{ user.name.first }} {{ user.name.last }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.gender }}</td>
-        <td>{{ user.dob.age }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <TableUsers :sortedAge="sortedAge" :currentSortDir="currentSortDir" :sortBy="sortBy" />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-
+import TableUsers from "@/components/TableUsers";
 export default {
   name: 'HelloWorld',
+  components: {
+    TableUsers
+  },
   data() {
     return {
       results: [],
@@ -157,14 +89,14 @@ export default {
     },
     getFilteredNames() {
       return this.usersFiltered.filter(user => {
-        return (user.name.first + ' ' + user.name.last).toLowerCase().includes(this.filterByName.toLowerCase());
+        return (user.firstName + ' ' + user.lastName).toLowerCase().includes(this.filterByName.toLowerCase());
       })
     },
     sortedAge() {
       return this.getFilteredNames.slice().sort((a, b) => {
         if (!this.currentSortDir) return 0;
         const modifier = this.currentSortDir === 'desc' ? -1 : 1;
-        return (a.dob.age - b.dob.age) * modifier;
+        return (a.age - b.age) * modifier;
       });
     },
   },
@@ -177,8 +109,8 @@ export default {
   methods: {
     fetchUsers() {
       axios
-          .get('https://randomuser.me/api/?results=20')
-          .then(response => (this.results = [...this.results, ...response.data.results]))
+          .get('http://localhost:12346/users')
+          .then(response => (this.results = [...this.results, ...response.data]))
           .catch(error => {
             console.log(error)
             this.errored = true
@@ -214,7 +146,7 @@ export default {
       if (this.currentSortDir) {
         query.sort = this.currentSortDir
       }
-      this.$router.push({query})
+      this.$router.push({ query })
     }
   },
   watch: {
@@ -246,6 +178,9 @@ th {
 ul {
   list-style-type: none;
   padding: 0;
+}
+img {
+  max-width: 60px;
 }
 
 li {
