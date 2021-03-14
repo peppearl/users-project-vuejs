@@ -55,6 +55,7 @@
       </th>
     </tr>
     </thead>
+
     <tbody
         id="tbody-users"
     >
@@ -62,17 +63,18 @@
         v-for="user in sortedAge"
         :key="user"
     >
-      <td>
-        <img :src="user.pic" alt="photo">
-      </td>
-      <td>
-        {{ user.firstName }} {{ user.lastName }}
-      </td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.gender }}</td>
-      <td>{{ user.age }}</td>
+        <td>
+          <img :src="user.pic" alt="photo">
+        </td>
+      <router-link :to="{name : 'User', params: {id: user.id} }" class="routerUser">
+        <td>{{ user.firstName }} {{ user.lastName }}</td>
+      </router-link>
+        <td>{{ user.email }}</td>
+        <td>{{ user.gender }}</td>
+        <td>{{ user.age }}</td>
     </tr>
     </tbody>
+
   </table>
 </template>
 
@@ -96,8 +98,11 @@ export default {
 th {
   color: #b033ff;
 }
-
 img {
   max-width: 60px;
+}
+.routerUser {
+  color: #b033ff;
+  text-decoration:none;
 }
 </style>
