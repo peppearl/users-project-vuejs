@@ -30,22 +30,6 @@
         @input="$emit('update:email', $event.target.value)">
   </label>
   <br>
-  <label class="m-r-10">
-    {{ label5 }}
-    <input
-        type="radio"
-        :value="gender"
-        :name="name"
-        @input="$emit('update:gender', $event.target.value)">
-  </label>
-  <label class="m-r-10">
-    {{ label6 }}
-    <input
-        type="radio"
-        :value="gender"
-        :name="name"
-        @input="$emit('update:gender', $event.target.value)">
-  </label>
 </template>
 
 <script>
@@ -58,15 +42,12 @@ export default {
     label2: String,
     label3: String,
     label4: String,
-    label5: String,
-    label6: String,
     birthDate: String,
     email: String,
     gender: String,
-    name: String,
 
   },
-  emits: ['update:firstName', 'update:lastName', 'update:birthDate', 'update:email', 'update:gender', 'update:gender'],
+  emits: ['update:firstName', 'update:lastName', 'update:birthDate', 'update:email'],
 }
 </script>
 <style>
