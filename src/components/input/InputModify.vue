@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'InputTest',
+  name: 'InputModify',
   props: {
     firstName: String,
     lastName: String,

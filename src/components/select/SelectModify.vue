@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'InputTest',
+  name: 'SelectModify',
   props: {
     label: String,
     gender: String,
