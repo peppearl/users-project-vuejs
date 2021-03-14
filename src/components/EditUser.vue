@@ -19,8 +19,8 @@
             <div class="row m-l-0 m-r-0">
               <div class="col-sm-4 bg-c-lite-green user-profile">
                 <div class="card-block text-center text-white">
-                  <div class="m-b-25"> <img :src="user.pic" class="img-radius" alt="User-Profile-Image"> </div>
-                  <h6 class="f-w-600" >{{ user.firstName }}</h6>
+                  <div class="m-b-25"><img :src="user.pic" class="img-radius" alt="User-Profile-Image"></div>
+                  <h6 class="f-w-600">{{ user.firstName }}</h6>
                   <h6 class="f-w-600">{{ user.lastName }}</h6>
                   <p>{{ user.gender }}</p> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                 </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-sm-12 m-b-20">
                       <p class="m-b-10 f-w-600">Age</p>
-                      <h6 class="text-muted f-w-400">{{ user.age}}</h6>
+                      <h6 class="text-muted f-w-400">{{ user.age }}</h6>
                     </div>
                   </div>
                 </div>
@@ -47,63 +47,30 @@
     </div>
   </div>
   <br>
-  <InputText label="Nom " :value="user.lastName" />
-  <InputText label="Prénom " :value="user.firstName" />
-  <InputText label="Date de naissance " :value="user.birthDate" />
-  <br>
-  <InputText label="Email" :value="user.email" />
-  <br>
-  <InputRadio label="Femme " :value="user.gender" name="genre" />
-  <InputRadio label="Homme " :value="user.gender" name="genre" />
-  <br>
-  <label>
-    <input
-        v-model="genderFilter"
-        :disabled="genderFilter.length<2 && genderFilter.includes('male')"
-        type="checkbox"
-        value="male"
-    >
-    Hommes
-  </label>
-  <label>
-    <input
-        v-model="genderFilter"
-        :disabled="genderFilter.length<2 && genderFilter.includes('female')"
-        type="checkbox"
-        value="female"
-    >
-    Femmes
-  </label>
-  <div class="center">
-    <button
-        class="btn btn-outline-dark joli"
-        @click="updateUser"
-    >
-      Modifier
-    </button>
-  </div>
+    <InputModify
+        v-model:first-name="user.firstName" label1="Prénom"
+        v-model:last-name="user.lastName" label2="Nom"
+        v-model:birth-date="user.birthDate" label3="Date de naissance"
+        v-model:email="user.email" label4="Email"
+        v-model:gender="user.gender" name="genre" label5="Femme" label6="Homme"
+    ></InputModify>
+    <div class="center">
+      <button class="btn btn-outline-dark" @click="updateUser">Envoyer</button>
+    </div>
 </template>
 
 <script>
 import axios from "axios"
-import InputText from "@/components/InputText";
-import InputRadio from "@/components/InputRadio";
+import InputModify from "@/components/input/InputModify";
 
 export default {
   name: 'EditUser',
-  props:[
-    "label",
-    "value",
-     "name"
-  ],
   components: {
-    InputText,
-    InputRadio,
+    InputModify,
   },
   data() {
     return {
       user: {},
-      genderFilter: 'male,female'
     }
   },
   methods: {
@@ -127,6 +94,7 @@ export default {
                 gender: this.user.gender
               })
           .then(response => {
+            console.log(response)
             alert("Utilisateur modifié !")
             this.$router.push('/users');
           })
@@ -143,9 +111,11 @@ export default {
 .padding {
   padding: 3rem !important
 }
+
 .user-card-full {
   overflow: hidden
 }
+
 .card {
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
@@ -153,12 +123,15 @@ export default {
   border: none;
   margin-bottom: 30px
 }
+
 .m-r-0 {
-  margin-right: 0px
+  margin-right: 0
 }
+
 .m-l-0 {
-  margin-left: 0px
+  margin-left: 0
 }
+
 .user-card-full .user-profile {
   border-radius: 5px 0 0 5px
 }
@@ -265,6 +238,7 @@ h6 {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out
 }
+
 .center {
   margin: 10px auto !important;
 }
