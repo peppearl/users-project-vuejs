@@ -9,6 +9,7 @@
       >
         Retour
       </button>
+      <DeleteUser :deleteUser="deleteUser"/>
     </div>
   </div>
   <div class="page-content page-container" id="page-content">
@@ -74,10 +75,12 @@
 import axios from "axios"
 import SelectModify from "@/components/select/SelectModify";
 import InputModify from "@/components/input/InputModify";
+import DeleteUser from "@/components/DeleteUser";
 
 export default {
   name: 'EditUser',
   components: {
+    DeleteUser,
     InputModify,
     SelectModify,
   },
@@ -112,7 +115,16 @@ export default {
             this.$router.push('/users');
           })
     },
-    resetForm(e) {
+    deleteUser() {
+      axios
+          .delete(`http://localhost:12346/users/${this.$route.params.id}`)
+          .then(function (response) {
+            console.log(response)
+            alert("Utilisateur supprimé !")
+            window.location.href = 'http://localhost:8080/users'
+          })
+    },
+    setForm(e) {
       e.preventDefault()
       return this.fetchUser()
     },

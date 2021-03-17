@@ -68,7 +68,7 @@
     <p v-else>
       il n'y a <strong>aucun</strong> utilisateur récupéré
     </p>
-    <TableUsers :sortedAge="sortedAge" :currentSortDir="currentSortDir" :sortBy="sortBy" />
+    <TableUsers :sortedAge="sortedAge" :currentSortDir="currentSortDir" :sortBy="sortBy" :deleteUser="deleteUser" />
   </div>
 </template>
 
@@ -121,6 +121,16 @@ export default {
           .catch(error => {
             console.log(error)
             this.errored = true
+          })
+    },
+    deleteUser() {
+      axios
+          .delete( `http://localhost:12346/users/`)
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
           })
     },
     sortBy(s) {
