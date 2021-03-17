@@ -4,7 +4,7 @@
     <br>
     <div>
       <button
-          class="btn btn-outline-dark joli"
+          class="btn btn-outline-dark m-r-10"
           @click="back"
       >
         Retour
@@ -113,6 +113,13 @@ export default {
             console.log(response)
             alert("Utilisateur modifié !")
             this.$router.push('/users');
+          })
+          .catch(error => {
+            console.log(error)
+            if (error.response.status === 405) {
+              alert("Email déjà utilisé !")
+            }
+            this.errored = true
           })
     },
     deleteUser() {

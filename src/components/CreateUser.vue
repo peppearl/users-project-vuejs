@@ -55,11 +55,14 @@ export default {
           .post(`http://localhost:12346/users`, this.form)
           .then(response => {
             console.log(response)
-            alert("Utilisateur créé !")
-            this.$router.push('/users');
+              alert("Utilisateur créé !")
+              this.$router.push('/users')
           })
           .catch(error => {
             console.log(error)
+            if (error.response.status === 405) {
+              alert("Email déjà utilisé !")
+            }
             this.errored = true
           })
     },
