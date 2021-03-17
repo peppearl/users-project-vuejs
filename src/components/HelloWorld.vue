@@ -10,11 +10,18 @@
       Afficher 8 nouveaux utilisateurs
     </button>
     <button
-        class="btn btn-outline-dark"
+        class="btn btn-outline-dark joli"
         @click="resetFilter"
     >
       Remettre les filtres par défaut
     </button>
+    <router-link :to="{name : 'Create'}">
+    <button
+        class="btn btn-dark"
+    >
+      Ajouter un nouvel utilisateur
+    </button>
+    </router-link>
     <br>
     <label>
       <input

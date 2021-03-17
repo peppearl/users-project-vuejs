@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Modifier l'utilisateur n° {{ `${this.$route.params.id}` }}</h1>
+    <h1>Utilisateur n° {{ `${this.$route.params.id}` }}</h1>
     <br>
     <div>
       <button
@@ -47,39 +47,39 @@
     </div>
   </div>
   <br>
-  <InputModify
-      v-model:first-name="user.firstName" label1="Prénom"
-      v-model:last-name="user.lastName" label2="Nom"
-      v-model:birth-date="user.birthDate" label3="Date de naissance"
-      v-model:email="user.email" label4="Email"
-  ></InputModify>
-  <!--
-  <label>
-    Sélectionnez le genre :
-    <select v-model="user.gender">
-      <option disabled value="">Choisissez</option>
-      <option value="female">Femme</option>
-      <option value="male">Homme</option>
-    </select>
-  </label>
-  -->
-  <SelectModify label="Sélectionnez le genre :" v-model:gender="user.gender" />
-  <div class="center">
-    <button class="btn btn-outline-dark m-r-10" @click="updateUser">Envoyer</button>
-    <button class="btn btn-outline-dark" @click="resetForm">Effacer les modifications</button>
-  </div>
+  <form @submit.prevent>
+    <div class="container">
+      <div class="row">
+        <div class="card d-flex justify-content-center mx-auto my-3 p-5">
+          <h2>Modifier l'utilisateur</h2>
+          <InputModify
+              v-model:first-name="user.firstName" label1="Prénom"
+              v-model:last-name="user.lastName" label2="Nom"
+              v-model:birth-date="user.birthDate" label3="Date de naissance"
+              v-model:email="user.email" label4="Email"
+          ></InputModify>
+          <br>
+          <SelectModify label="Sélectionnez le genre :" v-model:gender="user.gender"/>
+          <div class="center">
+            <button class="btn btn-dark m-r-10" @click="updateUser">Envoyer</button>
+            <button class="btn btn-outline-dark" @click="resetForm">Annuler les modifications</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
 import axios from "axios"
-import InputModify from "@/components/input/InputModify";
 import SelectModify from "@/components/select/SelectModify";
+import InputModify from "@/components/input/InputModify";
 
 export default {
   name: 'EditUser',
   components: {
     InputModify,
-    SelectModify
+    SelectModify,
   },
   data() {
     return {
@@ -124,6 +124,10 @@ export default {
 </script>
 
 <style>
+h2 {
+  font-weight: 900;
+  color: #b033ff;
+}
 /* Template Bootstrap */
 .padding {
   padding: 3rem !important

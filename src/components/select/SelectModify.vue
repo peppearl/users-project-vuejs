@@ -1,12 +1,14 @@
 <template>
-  <label>
-    {{ label }}
-    <select :value="gender" @input="$emit('update:gender', $event.target.value)">
-      <option disabled value="">Choisissez</option>
-      <option value="female">Femme</option>
-      <option value="male">Homme</option>
-    </select>
-  </label>
+  <div class="form-check form-check-inline">
+    <label>
+      {{ label }}
+      <select :value="gender" @input="$emit('update:gender', $event.target.value)">
+        <option disabled value="">Choisissez</option>
+        <option value="female">Femme</option>
+        <option value="male">Homme</option>
+      </select>
+    </label>
+  </div>
 </template>
 
 <script>
@@ -20,11 +22,19 @@ export default {
 }
 </script>
 <style>
-.m-r-10 {
-  margin-right: 10px
+h1 {
+  color: #b033ff;
+  padding: 10px 0 20px;
+  font-weight: 900
 }
-#emailInput
-{
-  width: 400px;
+.form-group label {
+  font-size: 9px;
+  font-weight: bold
+}
+.form-group span {
+  color: rgb(255, 0, 0)
+}
+.btn-primary span {
+  font-size: 12px
 }
 </style>

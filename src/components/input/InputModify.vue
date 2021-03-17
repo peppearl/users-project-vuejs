@@ -1,35 +1,37 @@
 <template>
-  <label class="m-r-10">
-    {{ label1 }}
-    <input
-        type="text"
-        :value="firstName"
-        @input="$emit('update:firstName', $event.target.value)">
-  </label>
-
-  <label class="m-r-10">
-    {{ label2 }}
-    <input
-        type="text"
-        :value="lastName"
-        @input="$emit('update:lastName', $event.target.value)">
-  </label>
-  <label class="m-r-10">
-    {{ label3 }}
-    <input
-        type="date"
-        :value="birthDate"
-        @input="$emit('update:birthDate', $event.target.value)">
-  </label>
-  <br>
-  <label class="m-r-10">
-    {{ label4 }}
-    <input id="emailInput"
-        type="text"
-        :value="email"
-        @input="$emit('update:email', $event.target.value)">
-  </label>
-  <br>
+  <div class="form-row">
+    <div class="form-group col-md-6 first">
+      <label for="inputFirstName">{{ label1 }} <span>*</span></label>
+      <input type="text" class="form-control" id="inputFirstName" name="firstname" required
+             :value="firstName"
+             @input="$emit('update:firstName', $event.target.value)">
+      <div id="fname_error" class="val_error"></div>
+    </div>
+    <div class="form-group col-md-6 first">
+      <label for="inputLastName">{{ label2 }} <span>*</span></label>
+      <input type="text" class="form-control" id="inputLastName" name="lastname"
+             :value="lastName"
+             @input="$emit('update:lastName', $event.target.value)">
+      <div id="lname_error" class="val_error"></div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="inputEmail">{{ label4 }} <span>*</span></label>
+      <input type="email" class="form-control" id="inputEmail" name="youremail"
+             :value="email"
+             @input="$emit('update:email', $event.target.value)">
+      <div id="email_error" class="val_error"></div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6 divCenter"><label for="inputBirthDate">{{ label3 }} <span>*</span></label>
+      <input type="date" class="form-control" id="inputBirthDate" name="yourbirthd"
+             :value="birthDate"
+             @input="$emit('update:birthDate', $event.target.value)">
+      <div id="phone_error" class="val_error"></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,18 +46,50 @@ export default {
     label4: String,
     birthDate: String,
     email: String,
-    gender: String,
-
   },
   emits: ['update:firstName', 'update:lastName', 'update:birthDate', 'update:email'],
 }
 </script>
 <style>
-.m-r-10 {
-  margin-right: 10px
+.divCenter {
+  margin: 0 auto;
 }
-#emailInput
-{
-  width: 400px;
+h1 {
+  color: #b033ff;
+  padding: 10px 0 20px;
+  font-weight: 900
+}
+.form-group {
+  margin-top: 20px
+}
+.first {
+  margin-top: 0 !important
+}
+.form-control {
+  border-radius: 0
+}
+.form-group label {
+  font-size: 9px;
+  font-weight: bold
+}
+.form-group span {
+  color: rgb(255, 0, 0)
+}
+.form-control:focus {
+  border: 2px solid #adb5bd;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ff000012;
+  letter-spacing: 1px;
+  color: #000
+}
+.btn-primary span {
+  font-size: 12px
+}
+.val_error {
+  color: #dc3545;
+  font-size: 10px;
+  padding-top: 5px;
+  font-weight: bold
 }
 </style>
