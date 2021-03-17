@@ -10,9 +10,9 @@
               v-model:last-name="form.lastName" label2="LAST NAME"
               v-model:email="form.email" label4="EMAIL"
               v-model:birth-date="form.birthDate" label3="BIRTH DATE"
-              v-model:pic="form.pic" label5="IMAGE"
+              v-model:pic="form.pic" label5="IMAGE" :handleFileUpload="handleFileUpload "
           ></InputCreate>
-          <SelectCreate label="Sélectionnez le genre" v-model:gender="form.gender"/>
+          <SelectCreate label="Sélectionnez le genre" v-model:gender="form.gender" />
           <div class="form-button pt-4">
             <button type="submit" class="btn btn-primary btn-block btn-lg" value="Register" name="register"
                     @click="createUser">
@@ -50,9 +50,26 @@ export default {
     }
   },
   methods: {
+    handleFileUpload(event){
+      this.pic = event.target.files[0];
+    },
     createUser() {
+      let formData = new FormData();
+
+      formData.append('pic', this.pic, this.pic.name);
+      console.log(this.pic)
+      formData.append('firstName', this.form.firstName);
+      formData.append('lastName', this.form.lastName);
+      formData.append('birthDate', this.form.birthDate);
+      formData.append('gender', this.form.gender);
+      formData.append('email', this.form.email);
+
       axios
-          .post(`http://localhost:12346/users`, this.form)
+          .post(`http://localhost:12346/users`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
           .then(response => {
             console.log(response)
               alert("Utilisateur créé !")
@@ -62,6 +79,9 @@ export default {
             console.log(error)
             if (error.response.status === 405) {
               alert("Email déjà utilisé !")
+            }
+            if (error.response.status === 400) {
+              alert("Il manque la photo !")
             }
             this.errored = true
           })

@@ -101,6 +101,7 @@ th {
 
 img {
   max-width: 60px;
+  max-height: 60px;
 }
 
 .routerUser {

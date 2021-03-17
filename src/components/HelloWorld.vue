@@ -196,10 +196,6 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-img {
-  max-width: 60px;
-}
-
 li {
   display: inline-block;
   margin: 0 10px;
