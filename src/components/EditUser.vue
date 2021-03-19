@@ -128,7 +128,7 @@ export default {
           .then(function (response) {
             console.log(response)
             alert("Utilisateur supprimé !")
-            window.location.href = 'http://localhost:8080/users'
+            window.location.href = "http://localhost:12346/#/users"
           })
     },
     setForm(e) {
